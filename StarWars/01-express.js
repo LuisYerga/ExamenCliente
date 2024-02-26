@@ -18,7 +18,7 @@ app.set('views', __dirname+'/views/');
 //Routes
 app
 .use('/', require('./router/rutas'))
-.use('/pokemon',require('./router/pokemon'))
+.use('/starwars',require('./router/starwars'))
 
 .use((req,res)=>{
     res.status(404).render('404',{
@@ -30,7 +30,7 @@ app
 
 .listen(port)
 
-const user=process.env.USER;
+const user=process.env.NAME;
 const password=process.env.PASSWORD;
 const dbname=process.env.DBNAME;
 const uri=`mongodb+srv://${user}:${password}@cluster0.2pq3yff.mongodb.net/${dbname}?retryWrites=true&w=majority`;

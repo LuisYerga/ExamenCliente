@@ -1,0 +1,31 @@
+<%-include("template/cabecera", {tituloWeb:"Panel de Administración"})%>
+
+<div class="container">
+    <h1>CRUD MongoDB</h1>
+    <a class="btn btn-success btn-block my-4" href="/starwars/crear">Crear Pokemon</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Afiliciación</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (arrayStarWars.length>0) { %>
+             <% arrayStarWars.forEach(starwars => { %>
+                <tr>
+                    <th scope="row"><%=starwars.id%></th>
+                    <th scope="row"><%=starwars.name%></th>
+                    <td><%=starwars.surname%></td>
+                    <td><%=starwars.affiliation%></td>
+                    <td><a class="btn btn-warning btn-sm" href="/StarWars/<% starwars._id %>">Edita/Eliminar</a></td>
+                </tr>
+             <% }) %>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<%-include("template/footer")%>

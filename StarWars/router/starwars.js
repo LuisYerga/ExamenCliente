@@ -2,16 +2,16 @@
 
 const express=require('express');
 const router=express.Router();
-const Pokemon=require('../models/pokemon');
+const StarWars=require('../models/starwars');
 
 
 router.get('/', async (req,res)=>{
 
     try{
-        const arrayPokemonDB=await Pokemon.find();
-        console.log(arrayPokemonDB);
-        res.render("pokemon", {
-            arrayPokemon: arrayPokemonDB
+        const arrayStarWarsDB=await StarWars.find();
+        console.log(arrayStarWarsDB);
+        res.render("starwars", {
+            arrayStarWars: arrayStarWarsDB
         })
     }catch(error){
         console.error(error)
@@ -22,9 +22,9 @@ router.post('/', async (req,res)=>{
     const body=req.body
     console.log(body)
     try{
-        const PokemonDB=new Pokemon(body)
-        await PokemonDB.save()
-        res.redirect('/pokemon')
+        const StarWarsDB=new StarWars(body)
+        await StarWarsDB.save()
+        res.redirect('/starwars')
     }catch(error){
         console.log('error', error)
     }
@@ -37,17 +37,17 @@ router.get('/crear', (req,res)=>{
 router.get('/:id', async(req,res)=>{
     const id=req.params.id
     try{
-        const pokemonDB= await Pokemon.findOne({_id:id})
-        console.log(pokemonDB)
+        const StarWarsDB= await StarWars.findOne({_id:id})
+        console.log(StarWarsDB)
         res.render('detalle', {
-            pokemon:pokemonDB,
+            starwars:StarWarsDB,
             error:false
         })
     }catch(error){
         console.log('Se ha producido un error', error)
         res.render('detalle', {
             error:true,
-            mensaje:'Pokemon no encontrado'
+            mensaje:'Personaje no encontrado'
         })
     }
 })
@@ -56,9 +56,9 @@ router.delete('/:id', async(req,res)=>{
     const id=req.params.id;
     console.log('_id desde backend', id)
     try{
-        const pokemonDB=await Pokemon.findByIdAndDelete({_id:id});
-        console.log(pokemonDB)
-        if(!pokemonDB){
+        const StarWarsDB=await StarWars.findByIdAndDelete({_id:id});
+        console.log(StarWarsDB)
+        if(!StarWarsDB){
             res.json({
                 estado:true,
                 mensaje:'No se pudo eliminar'
@@ -66,7 +66,7 @@ router.delete('/:id', async(req,res)=>{
         }else{
             res.json({
                 estado:true,
-                mensaje:'Pokemon eliminado'
+                mensaje:'Personaje eliminado'
             })
         }
     }catch(error){
@@ -79,19 +79,19 @@ router.put('/:id', async(req,res)=>{
     const body=req.body;
     console.log('body', body)
     try{
-        const pokemonDB=await Pokemon.findByIdAndUpdate(
+        const StarWarsDB=await StarWars.findByIdAndUpdate(
             id,body, {useFindAndModifiy:false}
         )
-        console.log(pokemonDB)
+        console.log(StarWarsDB)
         res.json({
             estado:true,
-            mensaje:'Pokémon editado'
+            mensaje:'Personaje editado'
         })
     }catch(error){
         console.log(error)
         res.json({
             estado:false,
-            mensaje:'Problema al editar pokemon'
+            mensaje:'Problema al editar personaje'
         })
     }
 })
