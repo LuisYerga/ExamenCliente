@@ -1,8 +1,9 @@
 <%-include("template/cabecera", {tituloWeb:"Panel de Administración"})%>
 
+
 <div class="container">
     <h1>CRUD MongoDB</h1>
-    <a class="btn btn-success btn-block my-4" href="/starwars/crear">Crear Pokemon</a>
+    <a class="btn btn-success btn-block my-4" href="/starwars/crear">Añadir personajes</a>
     <table class="table">
         <thead>
             <tr>
@@ -17,10 +18,10 @@
              <% arrayStarWars.forEach(starwars => { %>
                 <tr>
                     <th scope="row"><%=starwars.id%></th>
-                    <th scope="row"><%=starwars.name%></th>
+                    <td><%=starwars.name%></td>
                     <td><%=starwars.surname%></td>
                     <td><%=starwars.affiliation%></td>
-                    <td><a class="btn btn-warning btn-sm" href="/StarWars/<% starwars._id %>">Edita/Eliminar</a></td>
+                    <td><a href="#editarModal<%=starwars._id%>" class="btn btn-warning btn-sm editar-btn" data-toggle="modal" data-target="#editarModal<%=starwars._id%>">Editar</a></td>
                 </tr>
              <% }) %>
             <% } %>
@@ -28,4 +29,80 @@
     </table>
 </div>
 
+<% if (arrayStarWars.length > 0) { %>
+    <% arrayStarWars.forEach(starwars => { %>
+        <div class="modal fade" id="editarModal<%=starwars._id%>" tabindex="-1" role="dialog" aria-labelledby="editarModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarModalLabel">Editar Personaje</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editar" data-id="<%=starwars._id%>">
+                            <input type="hidden" class="form-control my-2" name="id"  value="<%=starwars.id%>" id="id">
+                            <input type="text" class="form-control my-2" name="name" value="<%=starwars.name%>" id="name">
+                            <input type="text" class="form-control my-2" name="surname" value="<%=starwars.surname%>" id="surname">
+                            <input type="text" class="form-control my-2" name="affiliation" value="<%=starwars.affiliation%>" id="affiliation">
+                            <button class="btn btn-primary btn-sm" type="submit">Actualizar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+<% } %>
+
 <%-include("template/footer")%>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    /*const btnEliminar=document.getElementById('eliminar')
+    btnEliminar.addEventListener('click', async () => {
+        console.log(btnEliminar.dataset.id)
+        try{
+            const data=await fetch(`/starwars/${btnEliminar.dataset.id}`,{
+                method:'delete'
+            })
+            const res= await data.json()
+            console.log(res)
+            if(res.estado){
+                window.location.href='/starwars'
+            }else{
+                console.log(res)
+            }
+        }catch(error){
+            console.log(error)
+        }
+    })*/
+        
+    const formEditar=document.getElementById('editar');
+    console.log(formEditar);
+          formEditar.addEventListener('submit', async (e)=>{
+            e.preventDefault()
+            const id=formEditar.elements['id'].value
+            const name=formEditar.elements['name'].value
+            const surname=formEditar.elements['surname'].value
+            const affiliation=formEditar.elements['affiliation'].value
+            const _id=formEditar.dataset.id
+            console.log(id, name, surname, affiliation, _id);
+            console.log("hola");
+            const data = await fetch(`/starwars/${_id}`,{
+                method:'PUT',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({id,name,surname,affiliation})
+            })
+            const res =await data.json()
+            if(res.estado){
+                window.location.href='/starwars'
+            }else{
+                console.log(res)
+            }
+          })
+});
+</script>

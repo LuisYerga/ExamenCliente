@@ -10,6 +10,6 @@ const StarWarsSchema=new Schema({
     affiliation:String
 })
 
-const StarWars=mongoose.model('StarWars', StarWarsSchema, "starwars");
+const StarWars=mongoose.model('StarWars', StarWarsSchema, "StarWars");
 
 module.exports=StarWars;
