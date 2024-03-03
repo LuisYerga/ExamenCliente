@@ -1,9 +1,9 @@
 <%-include("template/cabecera", {tituloWeb:"Panel de Administración"})%>
 
 
-<div class="container">
+<div class="container text-center ">
     <h1>CRUD MongoDB</h1>
-    <a class="btn btn-success btn-block my-4" href="/starwars/crear">Añadir personajes</a>
+    <a class="btn btn-success btn-block my-4" href="#crearModal" data-toggle="modal" data-target="#crearModal">Añadir personajes</a>
     <table class="table">
         <thead>
             <tr>
@@ -11,6 +11,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
                 <th scope="col">Afiliciación</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -21,7 +22,8 @@
                     <td><%=starwars.name%></td>
                     <td><%=starwars.surname%></td>
                     <td><%=starwars.affiliation%></td>
-                    <td><a href="#editarModal<%=starwars._id%>" class="btn btn-warning btn-sm editar-btn" data-toggle="modal" data-target="#editarModal<%=starwars._id%>">Editar</a></td>
+                    <td><a href="#editarModal<%=starwars._id%>" class="btn btn-warning btn-sm editar-btn" data-toggle="modal" data-target="#editarModal<%=starwars._id%>">Editar</a>
+                    <button id="eliminar" class="btn btn-danger btn-sm eliminar-btn" data-id="<%= starwars._id %>">Eliminar</button></td>
                 </tr>
              <% }) %>
             <% } %>
@@ -55,32 +57,60 @@
     <% }) %>
 <% } %>
 
+
+<div class="modal fade" id="crearModal" tabindex="-1" role="dialog" aria-labelledby="crearModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="crearModalLabel">Crear Personaje</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/starwars" class="my-2" method="POST">
+                    <input type="number" placeholder="Id" class="form-control my-2" name="id">
+                    <input type="text" placeholder="Nombre" class="form-control my-2" name="name">
+                    <input type="text" placeholder="Apellido" class="form-control my-2" name="surname">
+                    <input type="text" placeholder="Afiliciación" class="form-control my-2" name="affiliation">
+                    <button type="submit" class="btn btn-dark btn-block">
+                        Agregar
+                    </button>
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <%-include("template/footer")%>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    /*const btnEliminar=document.getElementById('eliminar')
-    btnEliminar.addEventListener('click', async () => {
-        console.log(btnEliminar.dataset.id)
-        try{
-            const data=await fetch(`/starwars/${btnEliminar.dataset.id}`,{
-                method:'delete'
-            })
-            const res= await data.json()
-            console.log(res)
-            if(res.estado){
-                window.location.href='/starwars'
-            }else{
+    const eliminarButtons = document.querySelectorAll('.eliminar-btn');
+    eliminarButtons.forEach(btnEliminar => {
+        btnEliminar.addEventListener('click', async () => {
+            console.log("hola");
+            console.log(btnEliminar.dataset.id)
+            try{
+                const data=await fetch(`/starwars/${btnEliminar.dataset.id}`,{
+                    method:'delete'
+                })
+                const res= await data.json()
                 console.log(res)
+                if(res.estado){
+                    window.location.href='/starwars'
+                }else{
+                    console.log(res)
+                }
+            }catch(error){
+                console.log(error)
             }
-        }catch(error){
-            console.log(error)
-        }
-    })*/
-        
+        })
+    })
+
     const formEditar=document.getElementById('editar');
-    console.log(formEditar);
           formEditar.addEventListener('submit', async (e)=>{
             e.preventDefault()
             const id=formEditar.elements['id'].value
