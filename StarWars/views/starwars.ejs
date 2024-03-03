@@ -22,8 +22,8 @@
                     <td><%=starwars.name%></td>
                     <td><%=starwars.surname%></td>
                     <td><%=starwars.affiliation%></td>
-                    <td><a href="#editarModal<%=starwars._id%>" class="btn btn-warning btn-sm editar-btn" data-toggle="modal" data-target="#editarModal<%=starwars._id%>">Editar</a>
-                    <button id="eliminar" class="btn btn-danger btn-sm eliminar-btn" data-id="<%= starwars._id %>">Eliminar</button></td>
+                    <td><a href="#editarModal<%=starwars._id%>" class="btn btn-warning btn-sm editar-btn" data-toggle="modal" data-target="#editarModal<%=starwars._id%>"><i class="fas fa-edit"></i></a>
+                    <button id="eliminar" class="btn btn-danger btn-sm eliminar-btn" data-id="<%= starwars._id %>" onclick="confirmDelete('<%= starwars._id %>')"><i class="far fa-trash-alt"></i></button></td>
                 </tr>
              <% }) %>
             <% } %>
@@ -48,7 +48,7 @@
                             <input type="text" class="form-control my-2" name="name" value="<%=starwars.name%>" id="name">
                             <input type="text" class="form-control my-2" name="surname" value="<%=starwars.surname%>" id="surname">
                             <input type="text" class="form-control my-2" name="affiliation" value="<%=starwars.affiliation%>" id="affiliation">
-                            <button class="btn btn-primary btn-sm" type="submit">Actualizar</button>
+                            <button class="btn btn-primary btn-sm" type="submit" onclick="return confirm('¿Quieres guardar los cambios?')">Actualizar</button>
                         </form>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                     <input type="text" placeholder="Nombre" class="form-control my-2" name="name">
                     <input type="text" placeholder="Apellido" class="form-control my-2" name="surname">
                     <input type="text" placeholder="Afiliciación" class="form-control my-2" name="affiliation">
-                    <button type="submit" class="btn btn-dark btn-block">
+                    <button type="submit" class="btn btn-dark btn-block" onclick="return confirm('¿Quieres crear este personaje?')">
                         Agregar
                     </button>
                 </form> 
@@ -91,21 +91,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const eliminarButtons = document.querySelectorAll('.eliminar-btn');
     eliminarButtons.forEach(btnEliminar => {
         btnEliminar.addEventListener('click', async () => {
-            console.log("hola");
-            console.log(btnEliminar.dataset.id)
-            try{
-                const data=await fetch(`/starwars/${btnEliminar.dataset.id}`,{
-                    method:'delete'
-                })
-                const res= await data.json()
-                console.log(res)
-                if(res.estado){
-                    window.location.href='/starwars'
-                }else{
+            const confirmResult = confirm('¿Seguro que quieres eliminar al personaje?');
+
+            if (confirmResult) {
+                try{
+                    const data=await fetch(`/starwars/${btnEliminar.dataset.id}`,{
+                        method:'delete'
+                    })
+                    const res= await data.json()
                     console.log(res)
+                    if(res.estado){
+                        window.location.href='/starwars'
+                    }else{
+                        console.log(res)
+                    }
+                }catch(error){
+                    console.log(error)
                 }
-            }catch(error){
-                console.log(error)
             }
         })
     })
