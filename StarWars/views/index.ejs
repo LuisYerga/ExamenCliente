@@ -1,7 +1,21 @@
 <%- include("template/cabecera", {tituloWeb:'Index'})%>
-<div class="text-center">  
+<div class="text-center text-white ">  
     <h2><%=titulo%></h2> 
     <p>Bienvenido a universo Star Wars</p> 
     <p>Aquí podras encontrar listados una amplia cantidad de personajes, además de poder añadir aquellos que no se encuentren aún en los registros.</p>
 </div>  
+
+<style>
+     body {
+        background-image: url('/img/halcon.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin: 0;
+        height: 100vh; /* Ensure the background covers the entire viewport height */
+    }
+
+    nav{
+        color: white;
+    }
+</style>
 <%- include("template/footer")%>
