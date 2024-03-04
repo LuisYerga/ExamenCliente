@@ -1,5 +1,5 @@
 <%-include("template/cabecera", {tituloWeb:"Panel de Administración"})%>
-
+<link rel="stylesheet" href="../public/css/style.css">
 
 <div class="container text-center ">
     <h1>Lista de personajes</h1>
@@ -7,7 +7,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">IMG</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
@@ -19,8 +18,7 @@
             <% if (arrayStarWars.length>0) { %>
              <% arrayStarWars.forEach(starwars => { %>
                 <tr>
-                    <th scope="row"><%=starwars.id%></th>
-                    <td><img src="<%=starwars.img%>" alt="<%=starwars.name%>"></td>
+                    <td class="w-25"><img src="<%=starwars.img%>" alt="<%=starwars.name%>"class="w-25"></td> <!--No se aplica el css. Ni idea que pasa-->
                     <td><%=starwars.name%></td>
                     <td><%=starwars.surname%></td>
                     <td><%=starwars.affiliation%></td>
@@ -46,7 +44,6 @@
                     </div>
                     <div class="modal-body">
                         <form id="editar" data-id="<%=starwars._id%>" enctype="multipart/form-data">
-                            <input type="hidden" class="form-control my-2" name="id"  value="<%=starwars.id%>" id="id">
                             <input type="text" class="form-control my-2" name="name" value="<%=starwars.name%>" id="name">
                             <input type="text" class="form-control my-2" name="surname" value="<%=starwars.surname%>" id="surname">
                             <input type="text" class="form-control my-2" name="affiliation" value="<%=starwars.affiliation%>" id="affiliation">
@@ -72,7 +69,6 @@
             </div>
             <div class="modal-body">
                 <form action="/starwars" class="my-2" method="POST">
-                    <input type="number" placeholder="Id" class="form-control my-2" name="id">
                     <input type="text" placeholder="Nombre" class="form-control my-2" name="name">
                     <input type="text" placeholder="Apellido" class="form-control my-2" name="surname">
                     <input type="text" placeholder="Afiliciación" class="form-control my-2" name="affiliation">
