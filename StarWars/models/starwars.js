@@ -7,7 +7,8 @@ const StarWarsSchema=new Schema({
     id:Number,
     name:String,
     surname:String,
-    affiliation:String
+    affiliation:String,
+    img:String
 })
 
 const StarWars=mongoose.model('StarWars', StarWarsSchema, "StarWars");

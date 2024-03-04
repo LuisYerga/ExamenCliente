@@ -2,12 +2,13 @@
 
 
 <div class="container text-center ">
-    <h1>CRUD MongoDB</h1>
+    <h1>Lista de personajes</h1>
     <a class="btn btn-success btn-block my-4" href="#crearModal" data-toggle="modal" data-target="#crearModal">Añadir personajes</a>
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">IMG</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
                 <th scope="col">Afiliciación</th>
@@ -19,6 +20,7 @@
              <% arrayStarWars.forEach(starwars => { %>
                 <tr>
                     <th scope="row"><%=starwars.id%></th>
+                    <td><img src="<%=starwars.img%>" alt="<%=starwars.name%>"></td>
                     <td><%=starwars.name%></td>
                     <td><%=starwars.surname%></td>
                     <td><%=starwars.affiliation%></td>
@@ -43,11 +45,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="editar" data-id="<%=starwars._id%>">
+                        <form id="editar" data-id="<%=starwars._id%>" enctype="multipart/form-data">
                             <input type="hidden" class="form-control my-2" name="id"  value="<%=starwars.id%>" id="id">
                             <input type="text" class="form-control my-2" name="name" value="<%=starwars.name%>" id="name">
                             <input type="text" class="form-control my-2" name="surname" value="<%=starwars.surname%>" id="surname">
                             <input type="text" class="form-control my-2" name="affiliation" value="<%=starwars.affiliation%>" id="affiliation">
+                            <input type="file" name="image[]" accept="image/" class="form-control mb-2" multiple>
                             <button class="btn btn-primary btn-sm" type="submit" onclick="return confirm('¿Quieres guardar los cambios?')">Actualizar</button>
                         </form>
                     </div>
